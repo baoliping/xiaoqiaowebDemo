@@ -1,0 +1,259 @@
+﻿<!-- toaster directive -->
+<toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
+<!-- / toaster directive -->
+<div class="main-wrapper">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+        <!-- <h3>Profile</h3> -->
+        <h3 class="logo">
+          <span class="logo-font">Virtual</span>
+          <span class="logo-font">Assistant</span>
+        </h3>
+        <div style="margin-left: 20px;">Work efficiency:&nbsp;{{workAnalysisData}}</div>
+    </div>
+    <div class="left-info">
+      <p>{{chat.eid}}</p>
+      <p>{{chat.level.length > 0 ? 'Level&nbsp;&nbsp;' + chat.level : ''}}</p>
+      <p>{{chat.conversationSize.length > 0 ? 'Conversations&nbsp;&nbsp;' + chat.conversationSize : ''}}</p>
+      <p>{{chat.conversationDate.length > 0 ? 'Last Query&nbsp;&nbsp;' + chat.conversationDate : ''}}</p>
+    </div>
+    <ul class="list-unstyled components">
+        <p>Recent Questions</p>
+        <li ng-repeat="(key,item) in chat.questions track by $id(key)" ng-click="addkeyword(item)">
+            <a>{{$index+1+ '.&nbsp;'+item}}</a>
+        </li>
+    </ul>
+  </nav>
+  <div id="main-content">
+    <div class="warp-out">
+      <div id="vue-root" ng-init="load();">
+        <div class="header">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6" style="height: 49px;">
+                <!-- <h3 class="logo">HRChatbot Admin</h3> -->
+              </div>
+              <div class="col-md-6" style="position: relative">
+                <md-menu-bar class="nav_bar">
+                  <md-menu>
+                      Hi<button ng-click="$mdMenu.open()">
+                          {{user.userName}}
+                          <span ng-if="!user.status" class="fa fa-check-circle greenColor"></span>
+                          <span ng-if="user.status" class="fa fa-clock-o yellow"></span>
+                      </button>
+                      <md-menu-content>
+                        <md-menu-item>
+                          <md-button ng-click="onLine()" ng-class="">
+                              <span class="fa fa-check-circle marginRight5 greenColor"></span>Available
+                          </md-button>
+
+                        </md-menu-item>
+                        <md-menu-item>
+                          <md-button ng-click="onLineBusy()">
+                            <span class="fa fa-clock-o marginRight5 yellow"></span>Busy
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                      </md-menu-content>
+                  </md-menu>
+                   <md-menu>
+                    <button ng-click="openNewinfoModel()" class="glyphicon glyphicon-envelope newinfo-out notin-btn">
+                        <span ng-if="changeobj.notReply && changeobj.notReply > 0" class="newinfo">{{changeobj.notReply}}</span>
+                    </button>
+                    <md-menu-content></md-menu-content>
+                  </md-menu>
+                  <md-menu>
+                      <button ng-click="getOnlineHrsInfo($mdMenu, $event)">
+                          Online List
+                      </button>
+                      <div class="_md md-open-menu-container md-whiteframe-z2 md-active md-clickable open_online_list">
+                        <md-content class="background_white" style="min-height: 300px;width: 250px;">
+                            <md-tabs md-dynamic-height md-border-bottom>
+                              <md-tab label="&nbsp;" ng-if="onlineListData.length < 1">
+                                  <md-content class="md-padding background_white main_tab">
+                                      <md-menu-item>
+                                          <md-button class="md-secondary">No Data!</md-button>
+                                      </md-menu-item>
+                                  </md-content>
+                              </md-tab>
+                              <md-tab ng-repeat="online in onlineListData" label="{{online.eid}}">
+                                  <md-content class="md-padding background_white main_tab">
+                                      <md-menu-item>
+                                          <md-button class="md-secondary">User:&nbsp;&nbsp;{{online.eid}}</md-button>
+                                      </md-menu-item>
+                                      <md-menu-item>
+                                          <md-button class="md-secondary">Status:&nbsp;&nbsp;{{online.status ? 'Busy' : 'Available'}}</md-button>
+                                      </md-menu-item>
+                                      <md-menu-item>
+                                        <md-button class="md-secondary">Current dialogs:&nbsp;&nbsp;{{online.nowsize}}</md-button>
+                                      </md-menu-item>
+                                      <md-menu-item>
+                                        <md-button class="md-secondary">Total dialogs:&nbsp;&nbsp;{{online.conversationsize}}</md-button>
+                                      </md-menu-item>
+                                      <md-menu-item>
+                                        <md-button class="md-secondary">Total messages:&nbsp;&nbsp;{{online.messagesize}}</md-button>
+                                      </md-menu-item>
+                                      <md-menu-item>
+                                        <md-button class="md-secondary">Online time:&nbsp;&nbsp;{{online.time_first}}</md-button>
+                                      </md-menu-item>
+                                      <md-menu-item>
+                                          <md-button class="md-secondary">Total Online Time:&nbsp;&nbsp;{{online.time_count}}</md-button>
+                                      </md-menu-item>
+                                      <md-menu-item>
+                                        <md-button class="md-secondary">Total dialog Time:&nbsp;&nbsp;{{online.datelen}}</md-button>
+                                      </md-menu-item>
+                                  </md-content>
+                                </md-tab>
+
+                            </md-tabs>
+                          </md-content>
+                      </div>
+                  </md-menu>
+                  <md-menu>
+                    <button ng-click="logout()" class="logouts">logout</button>
+                    <md-menu-content></md-menu-content>
+                  </md-menu>
+                </md-menu-bar>
+              </div>
+            </div>
+          <div class="bg-img"></div>
+          </div>
+        </div>
+        <div class="mainContainers">
+          <div class="container" style="height: 100%">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="buttontype">
+                  <div class="col-md-4" funfilter="chatbot_export_history_record">
+                        <div class="input-div">
+                            <input type="text" placeholder="Please select the date" id="exportDate" class="demo-input input_field_madoka">
+                            <label for="exportDate" class="input_label">
+                                <svg width="100%" height="100%" rx="4" ry="4" viewBox="0 0 404 77" preserveAspectRatio="none" class="graphic">
+                                    <path d="m0,0l404,0l0,77l-404,0l0,-77z"></path>
+                                </svg>
+                            </label>
+                        </div>
+                        <button type="button" id="btn-download" class="btn btn-primary bubbly-button" ng-click="exoprt()">Export</button>
+                  </div>
+                  <button type="button" ng-disabled="manChat.bothandoffVisible" class="btn pull-right btn-primary bubbly-button" ng-click="switchtohr()" funfilter="chatbot_bot_hand_off">Bot Hand off</button>
+                  <button type="button" class="btn pull-right btn-primary bubbly-button" ng-click="openStatistcsModel()" funfilter="chatbot_statistics">Statistics</button>
+                  <a ng-href="{{chatbot_letter_url}}" class="btn pull-right btn-primary bubbly-button letter-link" funfilter="chatbot_goto_letter">Letter</a>
+                  <div ng-if="manChat.visibleOnline == false" class="pull-right" style="display: inline-block" funfilter="chatbot_transfer">
+                      <button type="button" ng-disabled="manChat.transfervisible" class="btn btn-primary bubbly-button" ng-click="onlineMan()">Transfer</button>
+                  </div>
+                  <div ng-if="manChat.visibleOnline == true" class="pull-right" style="display: inline-block">
+                    <select ng-model="trains" class="select-control input-div" ng-options="item for item in onlineDdata" ng-change="selectOnline(trains)" style="width: 130px;">
+                      <option value="">-- Select --</option>
+                    </select>
+                  </div>
+                  <button type="button" class="btn pull-right btn-primary bubbly-button" ng-click="openUploadModel()" funfilter="chatbot_upload">Upload</button>
+                  <button type="button" class="btn pull-right btn-primary bubbly-button" ng-click="openConfigModel()" funfilter="chatbot_config">Config</button>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="tab-ul clearfix">
+                  <div ng-class="{active: tab===1}">
+                    <a class="relative" ng-click="tabnoe()">Intelligent service
+                      <span ng-if="manChat.messagesInfoVisible1 == true" class="message-info"></span>
+                    </a>
+                  </div>
+                  <div ng-class="{active: tab===2}">
+                    <a class="relative" ng-click="tabtwo()">Artificial service
+                      <span ng-if="manChat.messagesInfoVisible2 == true" class="message-info"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="tab-container">
+                <div class="tab-pane1" ng-show="tab===1">
+                  <div class="chat-contain clearfix">
+                    <div class="col-md-3 chat-left">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">Conversations</h4>
+                        </div>
+                        <div class="panel-body conversation-list">
+                          <ul class="nav nav-pills nav-stacked">
+                            <li class="list-groups" ng-repeat="(key,chatlist) in chatList">
+                              <div class="select-div" ng-class="{'select m-l-none': chatlist.selected }" ng-click="selectItem(key,chatlist)">
+                                  <div class="headOut" ng-class="{'m-l-none': chatlist.selected }">
+                                    <div style="font-weight: 600;">{{chatlist.eid}}</div>
+                                    <div class="chatlist-info">Level:{{chatlist.level}}</div>
+                                    <div class="chatlist-info">Conversations:{{chatlist.conversationSize}}</div>
+                                    <div class="chatlist-info">{{chatlist.conversationDate}}</div>
+                                  </div>
+                              </div>
+                              <span class="new-info">{{(chatlist.messages.length - chatlist.readMsgs.length) > 0 ? (chatlist.messages.length - chatlist.readMsgs.length) : ''}}</span>
+                              <sup style="color: #62c3ba; font-weight: 900;">{{chatlist.isVIP == false ? '' : 'VIP'}}</sup>
+                              <span class="hourglass">
+                                <i ng-if="chatlist.show_inform_robot == true"  ng-init="tooltips()"
+                                  class="fa fa-hourglass-end hourglass-left"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title="{{chatlist.show_inform_text}}"></i>
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-9 chat-right">
+                      <div class="panel panel-default panel-border-left">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">Messages</h4>
+                        </div>
+                        <!--chat-->
+                        <div class="scrollbar">
+                            <div id="chat-log" class="panel-body">
+                                <div ng-repeat="chat in chat.chatContent">
+                                  <div class="row" ng-if="chat.name != 'HR'">
+                                    <div class="chatTimer"><span class="chat-time">{{chat.date}}</span></div>
+                                    <div class="btn btn-success message-me pull-right">
+                                      <span>{{chat.text}}</span>
+                                      <!-- <span><img width="25" src="../images/hand_up_d.png" /></span> -->
+                                    </div>
+                                  </div>
+                                  <div class="row" ng-if="chat.name == 'HR'">
+                                    <div class="chatTimel"><span class="chat-time">{{chat.date}}</span></div>
+                                    <div class="btn btn-default message-hr pull-left clearfix">
+                                      <span>{{chat.text}}</span>
+                                    </div>
+                                    <!--点赞-->
+                                    <!-- <div class="give_hand">
+                                      <img ng-click="hangUp()" class="give_hand_up" width="30" src="../images/hand_up.png" />
+                                      <img ng-click="hangDown()" class="give_hand_down" width="30" src="../images/hand_down.png" />
+                                    </div> -->
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="input-group">
+                          <input type="text" placeholder="Please input..." id="input-text" disabled="disabled" class="txtInput">
+                          <span class="input-group-btn"><button type="button" disabled="disabled" class="btn btn-say">Send</button></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane1" ng-show="tab===2">
+                  <div ng-include="'views/humanService.html'"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="socket-line"></div>
+        </div>
+
+      </div>
+      <div id="footer">
+        <div class="contentWrapper"><p>&copy; 2017, Accenture All Rights Reserved</p></div>
+      </div>
+    </div>
+  </div>
+</div>

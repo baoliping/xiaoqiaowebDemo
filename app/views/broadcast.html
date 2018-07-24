@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="ok()">&times;</button>
+    <h4 class="modal-title">Broadcast</h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Group</label>
+          <div class="col-sm-10">
+              <div ng-dropdown-multiselect="" options="contactGroup.ContactGroupDatas" selected-model="broadcast.selectGroup" extra-settings="broadcast.multiselectSetting"></div>
+              <!--<select class="select-control" ng-model="broadcast.selectGroup" ng-options="item.name for item in contactGroup.ContactGroupDatas" style="width: 150px;">
+        <option value="">-- Select Type --</option>
+    </select>-->
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Message" class="col-sm-2 control-label">Message</label>
+          <div class="col-sm-10">
+            <textarea ng-model="broadcast.message" class="form-control" id="Message" placeholder="Message"></textarea>
+          </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button ng-click="ok()" type="button" class="btn btn-default">Cancel</button>
+    <button ng-click="broadcastSave()" type="submit" class="btn btn-primary">Save</button>
+</div>

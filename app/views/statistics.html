@@ -1,0 +1,157 @@
+﻿<div class="modal-header border-bottom">
+  <div class="tab-ul clearfix">
+    <div ng-class="{active: statistics.statisticsTab===1}" funfilter="chatbot_statistics_score">
+      <a class="modal-title" href ng-click="statisticsTab1()">Score Statistics</a>
+    </div>
+    <div ng-class="{active: statistics.statisticsTab===2}" funfilter="chatbot_statistics_score_analyze">
+      <a class="modal-title" href ng-click="statisticsTab2()">Score Analyze</a>
+    </div>
+    <div ng-class="{active: statistics.statisticsTab===3}" funfilter="chatbot_statistics_agent">
+      <a class="modal-title" href ng-click="statisticsTab3()">Agent Statistics</a>
+    </div>
+    <div ng-class="{active: statistics.statisticsTab===4}" funfilter="chatbot_statistics_history_record">
+      <a class="modal-title" href ng-click="statisticsTab4()">History Record</a>
+    </div>
+    <div ng-class="{active: statistics.statisticsTab===5}" funfilter="chatbot_statistics_history">
+      <a class="modal-title" href ng-click="statisticsTab5()">History Statistics</a>
+    </div>
+    <div ng-class="{active: statistics.statisticsTab===6}" funfilter="chatbot_statistics_thumb_down">
+      <a class="modal-title" href ng-click="statisticsTab6()">Thumb Down</a>
+    </div>
+    <button type="button" class="close" ng-click="ok()">&times;</button>
+  </div>
+</div>
+<div class="modal-body relative">
+  <div ng-show="statistics.statisticsTab===1">
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <div class="average">
+      <span id="feedback">{{exoprtDatas.feedback}}</span>
+      <span id="nofeedbock">{{exoprtDatas.nofeedbock}}</span>
+      <span id="mark_three">{{exoprtDatas.mark_three}}</span>
+      <span id="mark_second">{{exoprtDatas.mark_second}}</span>
+      <span id="mark_one">{{exoprtDatas.mark_one}}</span>
+      <span id="average">{{exoprtDatas.average}}</span>
+    </div>
+  </div>
+  <div ng-show="statistics.statisticsTab===2" style="height: 400px">
+    <div class="col-md-6">
+      <h3 class="analysis-title">Score Good</h3>
+      <ul class="analysis-plan">
+        <li ng-repeat="data in analysisDatamax" title="{{data.eid}}" ng-click="openDetail(data.conversation_name)">
+          {{data.eid}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+        <h3 class="analysis-title">Score Bad</h3>
+        <ul class="analysis-plan">
+          <li ng-repeat="data in analysisDatamin" title="{{data.eid}}" ng-click="openDetail(data.conversation_name)">
+            {{data.eid}}
+          </li>
+        </ul>
+    </div>
+  </div>
+  <div ng-show="statistics.statisticsTab===3" style="min-height: 400px">
+    <form class="form-horizontal">
+      <div class="form-bottom">
+        <span class="font-weight">Calendar</span>
+        <div class="input-div">
+          <input type="text" placeholder="Please select the month" id="exportMonth" class="demo-input input_field_madoka"> 
+          <label for="exportMonth" class="input_label">
+            <svg width="100%" height="100%" rx="4" ry="4" viewBox="0 0 404 77" preserveAspectRatio="none" class="graphic">
+              <path d="m0,0l404,0l0,77l-404,0l0,-77z"></path>
+            </svg>
+          </label>
+        </div>
+        <button class="btn btn-primary" ng-click="qshrWorkload()">Query</button>
+      </div>
+    </form>
+    <table ng-if="hrtask.hrVisible == true" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Task</th>
+          <th>Question counts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr class="displayhrTask"><td colspan="3">NO Data!</td></tr> -->
+        <tr ng-repeat="hr in hrtask.hrQuestion">
+          <td>{{hr._id}}</td>
+          <td>{{hr.task}}</td>
+          <td>{{hr.question_counts}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <tm-pagination conf="paginationConf" ng-if="hrtask.hrVisible == true"></tm-pagination>
+  </div>
+  <div ng-show="statistics.statisticsTab===4" style="min-height: 400px">
+      <form class="form-horizontal">
+        <div class="form-bottom col-xs-6">
+          <span class="font-weight">EID</span>
+          <div class="input-div">
+            <input type="text" placeholder="EID" ng-model="record.eid" class="demo-input" ng-keyup="searchRecords($event)">   
+          </div>
+          <button class="btn btn-primary" ng-click="searchEID()">Query</button>
+        </div>
+      </form>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Contry</th>
+            <th>City</th>
+            <th>Department</th>
+            <th>EID</th>
+            <th>Start Time</th>
+            <th>Session Length</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="record in record.historyRcords" ng-click="openDetail(record.id)">
+            <td>{{record.Country}}</td>
+            <td>{{record.Location}}</td>
+            <td>{{record.Entity}}</td>
+            <td>{{record.eid}}</td>
+            <td>{{record.last_date}}</td>
+            <td>{{record.datelen}}s</td>
+          </tr>
+        </tbody>
+      </table>
+      <tm-pagination conf="paginationRcords"></tm-pagination>
+    </div>
+  <div ng-show="statistics.statisticsTab===5" style="min-height: 400px">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Catogry</th>
+          <th>Sub Category</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="c in record.catogryData">
+          <td>{{c.category}}</td>
+          <td>{{c.sub_category}}</td>
+          <td>{{c.count}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-show="statistics.statisticsTab===6" style="min-height: 400px">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="80%">Text</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="t in thnmbDownData" ng-click="openDetail(t)">
+          <td>{{t.text}}</td>
+          <td>{{t.date}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <tm-pagination conf="paginationThunbDown"></tm-pagination>
+  </div>
+</div>

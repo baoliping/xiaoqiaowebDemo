@@ -1,0 +1,134 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="ok()">&times;</button>
+    <h4 class="modal-title">{{config.title_model}}</h4>
+</div>
+<div class="modal-body relative">
+    <div class="panel-body">
+    	<form ng-if="config.updateData_Visible == 9" class="form-inline">
+            <div class="form-bottom">
+                <span class="font-weight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text</span>
+                <textarea type="text" placeholder="text" ng-model="config.update_conversationMsg" class="demo-input textarea-answer" style="height: 80px;"> </textarea>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">keyword</span>
+                <textarea type="text" placeholder="keyword" ng-model="config.update_conversationkeyword" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+            </div>
+        </form>
+        <!--Embedding Adapter-->
+        <form ng-if="config.updateData_Visible == 1" class="form-inline">
+            <div class="form-bottom">
+                <span class="font-weight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Question</span>
+                <textarea type="text" placeholder="Question" ng-model="config.update_question" class="demo-input textarea-answer"> </textarea>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">Intent Name</span>
+                <textarea type="text" placeholder="Intent Name" ng-model="config.update_answer" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+            </div>
+        </form>
+        <!--auto reply/conmmon dialog-->
+        <form ng-if="config.updateData_Visible == 2 || config.updateData_Visible == 7" class="form-inline">
+            <div class="form-bottom">
+                <span class="font-weight">Question</span>
+                <textarea type="text" placeholder="Question" ng-model="config.auto_question" class="demo-input textarea-answer"> </textarea>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">Answer</span>
+                <textarea type="text" placeholder="Answer" ng-model="config.auto_answer" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">Type</span>
+                <select class="select-control" placeholder="Type" 
+                    ng-model="config.auto_type" 
+                    ng-options="item for item in config.auto_types"
+                    style="width: 100px;">
+                </select>
+            </div>
+        </form>
+        <!--add Relation Question-->
+        <form ng-if="config.updateData_Visible == 3 || config.updateData_Visible == 4" class="form-inline">
+            <div class="form-bottom">
+                <span class="font-weight">Lang</span>
+                <select class="select-control" placeholder="Language" 
+                            ng-model="config.add_relation_language" 
+                            ng-options="item for item in config.add_relation_languageData"
+                            style="width: 100px;">
+                </select>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">Intent name<span class="redColor paddingLeft5">*</span></span>
+                <textarea type="text" placeholder="Intent name" ng-model="config.add_relation_intentName" class="demo-input textarea-answer"> </textarea>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">&nbsp;&nbsp;&nbsp;Action<span class="redColor paddingLeft5">*</span></span>
+                <textarea type="text" placeholder="Action" ng-model="config.add_relation_action" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">&nbsp;&nbsp;&nbsp;Question<span class="redColor paddingLeft5">*</span></span>
+                <textarea type="text" placeholder="Question" ng-model="config.add_relation_question" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+            </div>
+        </form>
+        <!--update contact group-->
+        <form ng-if="config.updateData_Visible == 5" class="form-inline">
+            <div class="form-bottom">
+                <span class="font-weight">Name<span class="redColor paddingLeft5">*</span></span>
+                <textarea type="text" placeholder="Name" ng-model="config.update_contact_name" class="demo-input textarea-answer"> </textarea>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">&nbsp;&nbsp;&nbsp;Describe<span class="redColor paddingLeft5">*</span></span>
+                <textarea type="text" placeholder="Describe" ng-model="config.update_contact_describe" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+            </div>
+        </form>
+        <!--update FAQS-->
+        <form ng-if="config.updateData_Visible == 6" class="form-inline">
+            <div class="form-bottom">
+                <span class="font-weight">Lang</span>
+                <select class="select-control" placeholder="Language" 
+                            ng-model="config.faqs_language" 
+                            ng-options="item for item in config.add_relation_languageData"
+                            style="width: 100px;">
+                </select>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">Question<span class="redColor paddingLeft5">*</span></span>
+                <textarea type="text" placeholder="Question" ng-model="config.faqs_quest" class="demo-input textarea-answer"> </textarea>
+            </div>
+        </form>
+
+        <!--add takeover words-->
+        <form ng-if="config.updateData_Visible == 8 || config.updateData_Visible == 10" class="form-inline">
+            <div class="form-bottom">
+                <span class="font-weight">Type<span class="redColor paddingLeft5">*</span></span>
+                <select class="select-control" placeholder="Type" 
+                    ng-model="config.takeover_type" 
+                    ng-options="item for item in config.takeover_types"
+                    style="width: 150px;">
+                </select>
+            </div>
+            <div class="form-bottom">
+                <span class="font-weight">Text<span class="redColor paddingLeft5">*</span></span>
+                <textarea type="text" placeholder="Text" ng-model="config.takeover_text" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <!--update Embedding Adapter-->
+    <button ng-if="config.updateData_Visible == 9" type="submit" class="btn btn-primary" ng-click="updateconversationKeyword()">Update</button>
+    <button ng-if="config.updateData_Visible == 1" type="submit" class="btn btn-primary" ng-click="updateEmbeddingAdapter()">Update</button>
+    <!--update Auto Reply/conmmon dialog-->
+    <button ng-if="config.updateData_Visible == 2" type="submit" class="btn btn-primary" ng-click="updateAutoReply()">Update</button>
+    <!--add Relation Question-->
+    <button ng-if="config.updateData_Visible == 3" type="submit" class="btn btn-primary" ng-click="addRelationQuestion()">Add</button>
+    <!--update Relation Question-->
+    <button ng-if="config.updateData_Visible == 4" type="submit" class="btn btn-primary" ng-click="updateRelationQuestion()">Update</button>
+    <!--update Contact group-->
+    <button ng-if="config.updateData_Visible == 5" type="submit" class="btn btn-primary" ng-click="updateContactGroupData()">Update</button>
+    <!--update FAQS-->
+    <button ng-if="config.updateData_Visible == 6" type="submit" class="btn btn-primary" ng-click="updateFAQSData()">Update</button>
+    <!--add auto reply/conmmon dislog-->
+    <button ng-if="config.updateData_Visible == 7" type="submit" class="btn btn-primary" ng-click="addAutoReply()">Train</button>
+    <!--add takeover words-->
+    <button ng-if="config.updateData_Visible == 8" type="submit" class="btn btn-primary" ng-click="addTakeoverWords()">Add</button>
+    <!--add takeover words-->
+    <button ng-if="config.updateData_Visible == 10" type="submit" class="btn btn-primary" ng-click="updateTakeoverWords()">Update</button>
+</div>

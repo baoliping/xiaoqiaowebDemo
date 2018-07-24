@@ -1,0 +1,26 @@
+<div modal-style class="modal-header">
+    <button type="button" class="close" ng-click="ok()">&times;</button>
+    <h4 class="modal-title">Add member</h4>
+</div>
+<div class="modal-body paddingTopBottom relative" style="min-height:300px;">
+    <div class="contact_out">
+        <input id="contact_search" ng-change="contactChangeInput(contactList.contactText)" ng-keydown="contactSearchKeyup($event)" ng-model="contactList.contactText" class="contact_search" type="text" >
+        <svg class="svg-line" height="2" width="100%">
+            <line x2="100%" y1="0" class="line search-line" />
+        </svg>
+        <button ng-click="contactSearch()" class="contact_search_submit" type="button"><i class="glyphicon glyphicon-search"></i></button>
+    </div>
+    <ul class="media-list contact-list">
+        <li ng-repeat="contact in contactList.contactRencentDatas" ng-dblclick="converGroupMembersAdd(contact.eid)">
+            <div class="media-left">
+            <a href="#">
+                <img height="40px" class="media-object" src="../chatbot/images/photo.jpg">
+            </a>
+            </div>
+            <div class="media-body middle">
+                <span>{{contact.eid}}</span>
+            </div>
+        </li>
+    </ul>
+</div>
+              

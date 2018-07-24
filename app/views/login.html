@@ -1,0 +1,49 @@
+<div class="loginContainer">
+  <div class="title">
+    <h3>
+      <span class="logo"></span>Virtual Assistant
+    </h3>
+  </div>
+  <div id="content" class="colM clearfix">
+    <div class="leftWrapper">
+        <img src="./images/leftWrapperBg.png" width="100%" />
+    </div>
+    <div class="rightWrapper" ng-init="time()">
+      <div class="wrapper" ng-if="login.visible">
+        <h3>Login</h3>
+        <form method="post">
+          <ul class="errorlist nonfield"><li>{{login.messageError}}</li></ul>
+          <p>
+            <label for="id_username">Username:</label> 
+            <input type="text" name="username" autofocus="" maxlength="254" required="" id="id_username" ng-model="login.name">
+            <svg class="svg-line" height="1" width="100%">
+              <line x2="100%" y1="0" class="line" />
+            </svg>
+          </p>
+          <p>
+            <label for="id_password">Password:</label> 
+            <input type="password" name="password" required="" id="id_password" ng-model="login.password">
+            <svg class="svg-line" height="1" width="100%">
+                <line x2="100%" y1="0" class="line" />
+              </svg>
+          </p>
+          <div class="">
+            <input type="submit" value="Log in" class="submit bubbly-button" ng-click="submit()">
+          </div>
+        </form>
+      </div>
+      <div class="wrapper" ng-if="!login.visible">
+
+        <h2>Logged out</h2>
+        <p>You have been successfully logged out.</p>
+        <p><a ng-click="visibleLogin()">Log in</a> again.</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div id="footer" style="left: 0;">
+  <div class="contentWrapper">
+    <p>&copy; 2017, Accenture All Rights Reserved</p>
+  </div>
+</div>

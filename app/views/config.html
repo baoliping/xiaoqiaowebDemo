@@ -1,0 +1,368 @@
+<div class="modal-body relative">
+    <button type="button" class="close close_m" ng-click="ok()">&times;</button>
+    <md-content class="background_white" style="min-height: 400px;">
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Dev Account" ng-click="configTab1()" funfiltertab="chatbot_config_dev_account">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom">
+                        <span class="font-weight">Name</span>
+                        <div class="input-div">
+                            <input type="text" placeholder="Name" ng-model="config.nameadd" class="demo-input">
+                        </div>
+                        <button class="btn btn-primary" ng-click="doUserpost()" >Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr class="goUserget"><td colspan="2">NO Data!</td></tr> -->
+                            <tr ng-repeat="c in config.doUsergetDatas">
+                                <td class="relative" id="{{c.id}}" width="50%">
+                                    <span ng-dblclick="dblclickName(c.id)">{{c.name}}</span>
+                                    <input class="config-int" ng-blur="editUser(c.id)" type="text" ng-model="config.name" />
+                                </td>
+                                <td width="50%">
+                                    <span class="operation" ng-click="dblclickName(c.id)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteName(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationDouser"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <md-tab label="Low Efficiency Answer" ng-click="configTab2()" funfiltertab="chatbot_config_low_efficiency_answer">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom">
+                        <span style="font-weight: 600">Answer</span>
+                        <div class="input-div">
+                            <textarea placeholder="Answer" class="demo-input textarea-answer"  ng-model="config.answerAdd"></textarea>
+                        </div>
+                        <button class="btn btn-primary" ng-click="doUnableQuestionAdd()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Answer</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr class="goAnswerget"><td colspan="2">NO Data!</td></tr> -->
+                            <tr ng-repeat="c in config.doAnswerDatas">
+                                <td class="relative" id="{{c.id}}" width="80%">
+                                    <span ng-dblclick="dblclickName(c.id)">{{c.text}}</span>
+                                    <input class="config-int" ng-blur="editAnswer(c.id)" type="text" ng-model="config.text" />
+                                </td>
+                                <td width="20%">
+                                    <span class="operation" title="update" ng-click="dblclickName(c.id)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" title="delete" ng-click="deleteAnswer(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                    <span class="operation" title="detail" ng-click="openAnswerDetailModel(c)"><i class="glyphicon glyphicon-search"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationDoanswer"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <md-tab label="Filtered Q&A" ng-click="configTab3()" funfiltertab="chatbot_config_filtered_qa">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom">
+                        <span class="font-weight">Keywords</span>
+                        <div class="input-div">
+                            <input type="text" placeholder="Keywords" ng-model="config.keywordsAdd" class="demo-input">
+                        </div>
+                        <button class="btn btn-primary" ng-click="addKeywords()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Keywords</th>
+                                <th>Name</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr class="keyWords"><td colspan="3">NO Data!</td></tr> -->
+                            <tr ng-repeat="c in config.keyWordsData">
+                                <td class="relative" id="{{c.id}}" width="50%">
+                                    <span ng-dblclick="dblclickName(c.id)">{{c.text}}</span>
+                                    <input class="config-int" ng-blur="editKeywords(c.id)" type="text" ng-model="config.keywords" />
+                                </td>
+                                <td>{{c.modifier}}</td>
+                                <td width="50%">
+                                    <span class="operation" ng-click="dblclickName(c.id)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteKeywords(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationOtherKeywords"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <md-tab label="Contact Group" ng-click="configTab4()" funfiltertab="chatbot_config_contact_group">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom">
+                        <span class="font-weight">Name</span>
+                        <div class="input-div">
+                            <input type="text" placeholder="Name" ng-model="contactGroup.contactName" class="demo-input"> 
+                        </div>
+                        <span class="font-weight">Describe</span>
+                        <div class="input-div">
+                            <input type="text" placeholder="Describe" ng-model="contactGroup.contactDesc" class="demo-input" style="width: 360px;"> 
+                        </div>
+                        <button class="btn btn-primary" ng-click="addContactGroupData()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Describe</th>
+                                <th width="30%">Member</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in contactGroup.ContactGroupDatas">
+                                <td><span>{{c.name}}</span></td>
+                                <td><span>{{c.desc}}</span></td>
+                                <td>
+                                    <div ng-repeat="m in c.eids" class="displyInlineblock">
+                                        <span class="member-group">{{m}}<i ng-click="converGroupMemberDelete(c.id,m)">&times;</i></span>
+                                    </div>
+                                    <span ng-click="openContactGroupMemberModel(c.id)" class="glyphicon glyphicon-plus cursorPointer"></span>
+                                </td>
+                                <td>
+                                    <!--<span class="operation" ng-click="updateContactGroupModel(c)"><i class="glyphicon glyphicon-edit"></i></span>-->
+                                    <span class="operation" ng-click="deleteContactGroupData(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-content>
+            </md-tab>
+            <md-tab label="Question Library" ng-click="configTab5()" funfiltertab="chatbot_config_problem_library">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom">
+                        <span class="font-weight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Question</span>
+                        <textarea type="text" placeholder="Question" ng-model="config.question" class="demo-input textarea-answer"> </textarea>
+            
+                    </div>
+                    <div class="form-bottom">
+                        <span class="font-weight">Intent Name</span>
+                        <textarea type="text" placeholder="Intent Name" ng-model="config.answer" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+                        <button class="btn btn-primary" ng-click="addEmbeddingAdapter()">Train</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Question</th>
+                                <th width="30%">Intent Name</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in config.embeddingAdapters">
+                                <td><span>{{c.modifier}}</span></td>
+                                <td><span>{{c.question}}</span></td>
+                                <td><span>{{c.intent_name}}</span></td>
+                                <td>
+                                    <span class="operation" ng-click="updateAdapter(c)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteEmbeddingAdapter(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationQuestionLibrary"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <md-tab label="Common Dialog" ng-click="configTab6()" funfiltertab="chatbot_config_train">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom" style="text-align: right;">
+                    	<span class="font-weight">Type</span>
+                        <select class="select-control" placeholder="Type" 
+                            ng-model="config.change_t" 
+                            ng-options="item for item in config.auto_typesData"
+                            ng-change="seachChangeAuto(config.change_t)"
+                            style="margin: 0 10px; width: 100px;">
+                        </select>
+                        <button class="btn btn-primary" ng-click="addAutoReplyModel()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Modifier</th>
+                                <th>Question</th>
+                                <th width="30%">Answer</th>
+                                <th>Type</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in config.auto_autoPlay">
+                                <td><span>{{c.modifier}}</span></td>
+                                <td><span>{{c.question}}</span></td>
+                                <td><span>{{c.answer}}</span></td>
+                                <td>{{c.question_type}}</td>
+                                <td>
+                                    <span class="operation" ng-click="updateAutoReply(c)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteAutoReply(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationAutoReply"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <!--FAQS-->
+            <md-tab label="Greetings" ng-click="configTab7()" funfiltertab="chatbot_config_faqs">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom">
+                        <span class="font-weight">Lang</span>
+                        <select class="select-control" placeholder="Language" 
+                            ng-model="config.faqs_lang" 
+                            ng-options="item for item in config.faqs_langData"
+                            style="margin: 0 10px; width: 100px;">
+                        </select>
+                        <span class="font-weight">Question</span>
+                        <textarea type="text" placeholder="Question" ng-model="config.faq_question" class="demo-input textarea-answer" style="width: 400px;"></textarea>
+                        <button class="btn btn-primary" ng-click="addDoGreeting()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th width="70px">Lang</th>
+                                <th>Question</th>
+                                <th>Name</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in config.faqDatas">
+                                <td width="70px">{{c.lang}}</td>
+                                <td>{{c.greeting}}</td>
+                                <td>{{c.operator}}</td>
+                                <td>
+                                    <span class="operation" ng-click="updateFAQSModel(c)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteFAQ(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationFAQ"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <md-tab label="Related Question" ng-click="configTab8()" funfiltertab="chatbot_config_relation_question">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom" style="text-align: right;">
+                        <button class="btn btn-primary" ng-click="addRelationModel()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th width="70px">Lang</th>
+                                <th>Intent</th>
+                                <th>Action</th>
+                                <th>Question</th>
+                                <th>Operator</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in config.relationQuestions" ng-init="tooltips();">
+                                <td>{{c.lang}}</td>
+                                <td>
+                                    <span data-toggle="tooltip" data-placement="top" title="{{c.intent}}" class="white-space">{{c.intent}}</span>
+                                </td>
+                                <td><span data-toggle="tooltip" data-placement="top" title="{{c.action}}" class="white-space">{{c.action}}</span></td>
+                                <td>
+                                    <span data-toggle="tooltip" data-placement="top" title="{{c.question}}" class="white-space">{{c.question}}</span>
+                                </td>
+                                <td>{{c.operator}}</td>
+                                <td>
+                                    <span class="operation" ng-click="updateRelationModel(c)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteRelationQuestion(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationReationQuestion"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <!--conversationKeyworld-->
+             <md-tab label="Conversation Keyworld" ng-click="configTab9()" funfiltertab="chatbot_config_filtered_keyword">
+                <md-content class="md-padding background_white">
+                   <!---->
+                    <div class="form-bottom">
+                        <span class="font-weight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text</span>
+                        <textarea type="text" placeholder="text" ng-model="config.messagetext" class="demo-input textarea-answer" style="height: 100px;"> </textarea>
+            
+                    </div>
+                    <div class="form-bottom">
+                        <span class="font-weight">Keywords</span>
+                        <textarea type="text" placeholder="keywords" ng-model="config.keywordsAdd" class="demo-input textarea-answer" style="width: 400px;"></textarea> 
+                        <button class="btn btn-primary" ng-click="hr_admin_keyword_add()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                            	<th width="30%">Text</th>
+                                <th width="30%">Keywords</th>
+                                <th>Name</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in config.conversationData">
+                                <td><span class="mulp-span mulp">{{c.text}}</span></td>
+                                <td><span class="keyword-span mulp">{{c.keyword}}</span></td>
+                                <td><span>{{c.admin}}</span></td>
+                                <td>
+                                    <span class="operation" ng-click="updateConversation(c)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteConversation(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   <!---->
+                   <tm-pagination conf="paginationconversation"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <md-tab label="Takeover Words" ng-click="configTab10()" funfiltertab="chatbot_config_relation_question">
+                <md-content class="md-padding background_white">
+                    <div class="form-bottom" style="text-align: right;">
+                        <button class="btn btn-primary" ng-click="addTakeoverWordsModel()">Add</button>
+                    </div>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th width="70px">EID</th>
+                                <th>type</th>
+                                <th>Text</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in config.takeover_data" ng-init="tooltips();">
+                                <td>{{c.eid}}</td>
+                                <td>{{c.type}}</td>
+                                <td><span data-toggle="tooltip" data-placement="top" title="{{c.type}}" class="white-space" style="max-width: 280px;">{{c.text}}</span></td>
+                                <td>
+                                    <span class="operation" ng-click="updateTakeoverWordsModel(c)"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <span class="operation" ng-click="deleteSensword(c.id)"><i class="glyphicon glyphicon-trash"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <tm-pagination conf="paginationTakeoverWords"></tm-pagination>
+                </md-content>
+            </md-tab>
+            <!--end-->
+        </md-tabs>
+    </md-content>
+</div>

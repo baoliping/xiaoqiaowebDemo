@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="ok()">&times;</button>
+    <h4 class="modal-title">Detail</h4>
+</div>
+<div class="modal-body relative">
+    <!--chat-->
+    <div class="panel-body" id="chat-meaasge">
+        <div ng-repeat="chat in detailData">
+            <div class="row" ng-if="chat.name != 'HR'">
+                <div class="chatTimer"><span class="chat-time">{{chat.date}}</span></div>
+                <div ng-if="!chat.mark_red" class="btn btn-success message-me pull-right">
+                    <span>{{chat.text}}</span>
+                </div>
+                <div ng-if="chat.mark_red" ng-style="setColor(chat.mark_red)" class="btn btn-success message-me pull-right">
+                    <span>{{chat.text}}</span>
+                </div>
+            </div>
+            <div class="row" ng-if="chat.name == 'HR'">
+                <div class="chatTimel"><span class="chat-time">{{chat.date}}</span></div>
+                <div ng-if="!chat.mark_red" class="btn btn-default message-hr pull-left clearfix">
+                    <span>{{chat.text}}</span>
+                </div>
+                <div ng-if="chat.mark_red" ng-style="setColor(chat.mark_red)" class="btn btn-default message-hr pull-left clearfix">
+                    <span>{{chat.text}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      

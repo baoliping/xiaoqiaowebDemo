@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="ok()">&times;</button>
+    <h4 class="modal-title">Answer Detail</h4>
+</div>
+<div class="modal-body relative">
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>EID</th>
+                <th>Question</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="c in config.answerDetailDatas">
+                <td class="relative">{{c.eid}}</td>
+                <td>{{c.above_text}}</td>
+                <td>{{c.date}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="answerdetail">NO Data!</div>
+    <!-- <tm-pagination conf="paginationOtherAnwerDetail"></tm-pagination> -->
+</div>
+      

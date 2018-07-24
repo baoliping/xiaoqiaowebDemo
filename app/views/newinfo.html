@@ -1,0 +1,110 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="ok()">&times;</button>
+    <h4 class="modal-title">Message information</h4>
+    <div class="inlin-span">on time rate: {{replay.ontimeRate}}</div>
+    <div class="inlin-span" ng-if='(changeobj.notReplyrate) >0'>not replyrate: {{changeobj.notReplyrate}}</div>
+    <div class="inlin-span" ng-if='changeobj.replyRate'>reply rate: {{changeobj.replyRate}}</div>
+    <div class="inlin-span" ng-if='(changeobj.total)>0'>total: {{changeobj.total}}</div>
+        
+</div>
+<div class="modal-body relative model-body-height model-body-height-new">
+    <!--chat-->
+    <div class="panel-body panel-top">
+        <div class="reply_msg_title clearfix">
+                    <div class="reply_width4" style="padding-left: 25px;">Name</div>
+                    <div class="reply_width4 text-center" style="padding-left: 26px;">Level</div>
+                   <!-- <div class="reply_width2">VIP</div>-->
+                    <div class="reply_width4 text-center">Subject</div>
+                    <div class="reply_width4" style="padding-left: 58px;">Time</div>
+                    <div class="reply_width4" style="padding-left: 88px;">Operation</div>
+        </div>
+        <ul class="reply_msg panel-body-new">
+           
+            <li ng-repeat="msg in replay.messageBoards">
+                <div class="reply_msg_cont clearfix clickname" >
+                	 <div class="reply_width4" style="padding-left: 27px;position: relative;">
+                    	<span ng-if="msg.dealed == true" title="A message has been processed" class="operation greenColor fontSize14 fontSize14-new span-opration-new" title="detail"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span ng-if="msg.dealed == false" title="Unprocessed message" class="operation redColor fontSize14 fontSize14-new span-opration-new" title="detail"><i class="glyphicon glyphicon-question-sign"></i></span>
+                      	<span class="newe-ss" title='{{msg.eid}}'>{{msg.eid}} {{msg.is_vip== true ? '(VIP)' : ''}}</span>
+                     
+                    </div>
+                    <div class="reply_width4 level-span text-center">{{msg.level}}</div>
+                    <!--<div class="reply_width2 vip-span">{{msg.is_vip== true ? 'VIP' : ''}}</div>-->
+                    <div class="reply_width4 text-center more-wold">{{msg.subject}}</div>
+                    <div class="reply_width4 text-center">{{msg.date}}</div>
+                    <div class="reply_width4  po-span text-center">
+                    	<!--<span ng-click="showMessage(msg)"  class="resh" ng-if='!msg.isup'></span>
+                    	<span ng-click="upMessage(msg)"  class="reshup" ng-if='msg.isup==true'></span>-->
+                        <span class="operation reply-btn" title="detail" ng-click="openNewinfoDetailModel(msg)">Reply</span>
+                     </div>
+                    <div ng-if="msg.hr_name" class="reply_content">
+                    <div class="reply_content_title">Reply information</div>
+                    <div class="reply_content_tt" style="clear: both;">
+                        <span>{{msg.hr_name}}</span>&nbsp;&nbsp;&nbsp;
+                        <span style="font-size: 12px;">{{msg.reply_date}}</span>
+                    </div>
+                    <div class="reply_content_cont" style="clear: both;margin-left: -25px;">{{msg.reply_text}}</div>
+                    <!--<span ng-click="showMessage(msg)"  class="resh"></span>-->
+                    <div class="hr-div" ng-if='msg.showfals'>上下文</div>
+                </div>
+                </div>
+               
+               <!--问题-->
+               <div  class="reply_content newinfo-message" ng-if="msg.filrstthrem ">
+                       <div class="reply_content_tt">
+                            <span>{{msg.filrstthrem.subject}}</span>&nbsp;&nbsp;&nbsp;
+                            <span style="font-size: 12px;">{{msg.filrstthrem.date}}</span>
+                        </div>
+                        <div class="reply_content_cont">{{msg.filrstthrem.text}}</div>
+                </div>
+               <!---->
+               
+               <!--回复-->
+                <div  class="reply_content newinfo-message text-right" ng-if="msg.filrstthrem">
+                       <div class="reply_content_tt">
+                            <span>{{msg.filrstthrem.reply_text}}</span>&nbsp;&nbsp;&nbsp;
+                            <span style="font-size: 12px;">{{msg.filrstthrem.reply_date}}</span>
+                        </div>
+                        
+                </div>
+               <!---->
+                <div ng-repeat= "message in msg.mesageList" class="text-left reply_content newinfo-message" ng-if="msg.mesageList.length!=0">
+                       <div class="reply_content_tt">
+                            <span>{{message.hr_name}}</span>&nbsp;&nbsp;&nbsp;
+                            <span style="font-size: 12px;">{{message.reply_date}}</span>
+                        </div>
+                        <div class="reply_content_cont">{{message.reply_text}}</div>
+                </div>
+                <div ng-repeat= "childrenmsg in msg.childrenList" class="reply_content text-left childrenmessaghe" ng-if="msg.childrenList.length!=0">
+                       <div class="reply_content_tt">
+                            <span>{{childrenmsg.subject}}</span>&nbsp;&nbsp;&nbsp;
+                           </div>
+                        <div class="reply_content_cont">
+                        	<div class="text-left" style="display: inline-block;width: 78%;">
+                        		{{childrenmsg.text}}
+                        	</div>
+                        	<!--<div style="display: inline-block;">
+                        		 <span ng-click="sendFun(childrenmsg)"  class="sendbtn">replay</span>
+                        	</div>-->
+                          
+                        </div>
+                       
+                        <div class="reply_content_tt  text-right">
+	                        <span>{{childrenmsg.hr_name}}</span>&nbsp;&nbsp;&nbsp;
+	                        <span style="font-size: 12px;">{{childrenmsg.reply_date}}</span>
+	                        <div class="reply_content_cont" >{{childrenmsg.reply_text}}</div>
+	                     </div>
+                       <div ng-repeat=" nextchildrenmsg in childrenmsg.muti_reply_message_board.list"  class="reply_content_tt  text-right"  ng-if="childrenmsg.muti_reply_message_board.list.length!=0">
+	                        <span>{{nextchildrenmsg.hr_name}}</span>&nbsp;&nbsp;&nbsp;
+	                        <span style="font-size: 12px;">{{nextchildrenmsg.reply_date}}</span>
+	                        <div class="reply_content_cont" >{{nextchildrenmsg.reply_text}}</div>
+	                    </div>
+                </div>
+                 <div ng-if='msg.childrenCount>2 &&  msg.totalPage>pagecount' class="more-btn"  ng-click="loadMoreMessage(msg)">
+	                 <span >Load more</span>
+	             </div>
+            </li>
+        </ul>
+        <tm-pagination conf="paginationNewinfo"></tm-pagination>
+    </div>
+</div>

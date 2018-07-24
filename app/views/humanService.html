@@ -1,0 +1,163 @@
+﻿<div class="chat-contain clearfix">
+  <div class="col-md-3 chat-left">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">Conversations</h4>
+      </div>
+      <div id="contextMenu" class="panel-body conversation-list">
+        <ul class="nav nav-pills nav-stacked">
+          <li class="list-groups" ng-repeat="(key,chatlist) in manchatList" ng-if="chatlist.HRName == user.userName">
+            <div class="select-div" ng-class="{'select m-l-none': chatlist.selected }" ng-click="selectmanItem(key,chatlist)">
+                <div class="headOut" ng-class="{'m-l-none': chatlist.selected }">
+                    <div style="font-weight: 600;" >{{chatlist.eid}} 
+                    	<span ng-if="manChat.sendType =='web' && manChat.sendType ">(web)</span>
+                    	<span ng-if="manChat.sendType !='web' && manChat.sendType">(skype)</span>
+                    	&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    <div class="chatlist-info"><span style="color:#337ab7;font-weight: 600;">{{chatlist.HRName ? '<'+chatlist.HRName +'>' : ''}}</span></div>
+                    <div class="chatlist-info">Level:{{chatlist.level}}</div>
+                    <div class="chatlist-info">Conversations:{{chatlist.conversationSize}}</div>
+                    <div class="chatlist-info">{{chatlist.conversationDate}}</div>
+                </div>
+            </div> 
+            <span class="chatlist-close" ng-click="closeChatman(chatlist,key)">×</span> 
+            <span class="new-info" style="top: 35px;">{{(chatlist.messages.length - chatlist.readMsgs.length) > 0 ? (chatlist.messages.length - chatlist.readMsgs.length) : ''}}</span>
+            <sup style="color: #62c3ba; font-weight: 900;">{{chatlist.isVIP == false ? '' : 'VIP'}}</sup>
+            <span class="hourglass">
+              <i ng-if="chatlist.show_inform_man == true" ng-init="tooltips()"
+                class="fa fa-hourglass-end hourglass-right"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="{{chatlist.show_inform_text}}"></i>
+            </span>
+          </li>
+        </ul>
+        <div class="contextMenu" id="myMenu1">
+            <ul>
+              <li id="contactList" ng-click="openContactModel()" funfilter="chatbot_conversation_add">Contact list</li>
+              <li id="Broadcast" ng-click="openBroadcastModel()" funfilter="chatbot_conversation_Broadcast">Broadcast</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-9 chat-right">
+    <div class="panel panel-default panel-border-left">
+      <div class="panel-heading">
+        <h4 class="panel-title relative">Messages<span ng-if="manChat.messagesFocus == true" class="focus-message">typing a message...</span></h4>
+      </div>
+      <!--chat-->
+      <div class="scrollbar">
+          <div id="chat-man" class="panel-body">
+              <div ng-repeat="chat in manChat.manchatContent">
+                <div class="row" ng-if="chat.name != 'HR'">
+                  <div class="chatTimer"><span class="chat-time">{{chat.date}}</span></div>
+                  <div class="btn btn-success message-me pull-right">
+                     <span ng-if="chat.mstype=='1' || chat.mstype=='text'">{{chat.text}}</span>
+                     <img ng-src="{{chat.text}}" class="sendMessage imgicon" ng-if="chat.mstype=='image'" ng-click='bgImgFun(chat.text,$event)'/>
+                     <a ng-href="{{chat.text}}" class="sendMessage" ng-if="chat.mstype=='file'"></a>
+                     <span ng-if="chat.mstype=='file' || chat.mstype=='image'" class="showFileName">{{chat.fileName}}</span>
+                     <!---->
+                     <div ng-if="chat.mstype=='vodio'">
+                     	 	<div  class="videoButton" ng-if="!chat.showpage">
+													<!--	<div ng-click="showVideo(chat);">播放</div>-->
+													<div ng-click="openVido(chat);">
+														<img src="../images/newvideo.png" class="showvido" />
+														
+													</div>
+												</div>
+
+											<!--	<div id="videoPage" class="videoPage" ng-show="chat.showpage==true && chat.showpage">
+										   			<div  class="videoPage-content">
+																<span><img style="height:25px;" src="../images/video.png" /></span>
+																<img src="../images/close.png" class="videoPage-close" ng-click="hideVideo(chat);" />
+										   	 		</div>
+									  		 		<div id="a1" class="all"></div>
+												</div>-->
+                     </div>
+                     
+									<!---->
+									
+                   </div>
+                </div>
+                <div class="row" ng-if="chat.name == 'HR'">
+                  <div class="chatTimel"><span class="chat-time">{{chat.date}}</span></div>
+                  <div class="btn btn-default message-hr pull-left clearfix" >
+                     <span ng-if="chat.mstype=='1' || chat.mstype=='text'">{{chat.text}}</span>
+                     <img ng-src="{{chat.text}}" class="sendMessage imgicon" ng-if="chat.mstype=='image'" ng-click='bgImgFun(chat.text,$event)'/>
+                     <a ng-href="{{chat.text}}" class="sendMessage" ng-if="chat.mstype=='file'"></a>
+                     <span ng-if="chat.mstype=='file' || chat.mstype=='image'" class="showFileName">{{chat.fileName}}</span>
+                    <!---->
+                     <div ng-if="chat.mstype=='vodio'">
+                  					<div  class="videoButton" ng-if="!chat.showpage">
+															<!--	<div ng-click="showVideo(chat);">播放</div>-->
+															<div ng-click="openVido(chat);">
+																<img src="../images/newvideo.png" class="showvido" />
+															</div>
+												</div>
+
+													<!--<div  class="videoPage" ng-show="chat.showpage==true && chat.showpage">
+									   						 <div  class="videoPage-content">
+																		 <span><img style="height:25px;" src="../images/video.png" /></span>
+																		<img src="../images/close.png" class="videoPage-close" ng-click="hideVideo(chat);" />
+									   			 			 </div>
+									   						<div id="a1" class="all"></div>
+													</div>-->
+											</div>
+									<!--end-->
+                    <!--<div class="media-contain">
+                      <div class="thumbnail">
+                        <img src="../images/photo.jpg" />
+                        <div class="caption">
+                          <h3 class="imgchat-title">Thumbnail label</h3>
+                          <p>Cras justo odio</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="media-contain">
+                      <div class="thumbnail">
+                        <img src="../images/photo.jpg" />
+                        <div class="caption">
+                          <h3 class="imgchat-title">Thumbnail label</h3>
+                          <p>Cras justo odio</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="media-contain">
+                      <div class="thumbnail">
+                        <img src="../images/photo.jpg" />
+                        <div class="caption">
+                          <h3 class="imgchat-title">Thumbnail label</h3>
+                          <p>Cras justo odio</p>
+                        </div>
+                      </div>
+                    </div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+      <div class="input-group" style="border-top:1px solid rgba(98, 195, 186, .7);" ng-class="{' bg-new': !manChat.disabledChat}" >
+      	<div class="wc-toolbar" ng-if="manChat.sendType =='web' &&  tab===2">
+           <form  enctype="multipart/form-data" class="file-form">
+              	 		<a href="javascript:;" title="Image and File"  class="file-a">
+              			<div>
+              				<input ng-disabled="manChat.disabledChat" type="file" id="filebtn" class="file-input" onchange="angular.element(this).scope().filemessageChanged(this)"/>
+              				<label for="filebtn"></label>
+              			</div>
+              		</a>
+          </form>
+        </div>
+        <input type="text" ng-disabled="manChat.disabledChat" placeholder="Please input..." id="input-text" ng-model="manChat.sendContent" class="txtInput-new" ng-keyup="keySendChat($event)">
+        <span class="input-group-btn"><button type="button" ng-disabled="manChat.disabledChat" ng-click="sendChat()" class="btn btn-say btnsend">Send</button></span>
+      </div>
+    </div>
+  </div>
+</div>
+  <!--图片模态框 -->
+<div class="motai" id="mo" ng-style='objimg'>
+    <!--<span class="closeimg" id="close" ng-click='colsespan()'>×</span>-->
+    <img class="motaiimg" id="moimg" ng-src='{{imgurl}}'>
+</div>
+<!--图片模态框 -->
